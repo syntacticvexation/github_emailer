@@ -1,5 +1,6 @@
 <?php
 
 define('GITHUB_USER','');
+define('EMAIL_ADDR','');
 
 ?>
