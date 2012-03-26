@@ -2,9 +2,10 @@
 
 <?php
 	include('config.php');
+	define('CACHE_DIR',__DIR__.DIRECTORY_SEPARATOR.'cache');
 
 	function read_cache($fname) {
-		return unserialize(file_get_contents("cache".DIRECTORY_SEPARATOR.$fname));
+		return unserialize(file_get_contents(CACHE_DIR.DIRECTORY_SEPARATOR.$fname));
 	}
 
 	function write_cache($fname,$data) {
@@ -15,15 +16,13 @@
 			$indexed_data[$repo->name] = $repo;
 		}
 
-		$fh = fopen("cache".DIRECTORY_SEPARATOR.$fname, 'w');
+		$fh = fopen(CACHE_DIR.DIRECTORY_SEPARATOR.$fname, 'w');
 		$wrapped_data = array('timestamp'=>time(),'repodata'=>$indexed_data);
 		fwrite($fh,serialize($wrapped_data));
 		fclose($fh);
 	}
 
 	function calculate_changes($old,$new) {
-		print_r(array_keys($old['repodata']));
-
 		$changes = array();
 
 		foreach ($new as $repo) {
@@ -56,8 +55,6 @@
 		$cache = read_cache(GITHUB_USER);
 
 		$changes = calculate_changes($cache,$repos);
-
-		print_r($changes);
 
 		if (count($changes) > 0) {
 			email_changes($changes);
