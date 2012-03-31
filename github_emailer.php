@@ -1,5 +1,4 @@
 #!/usr/bin/php
-
 <?php
 	include('config.php');
 	define('CACHE_DIR',__DIR__.DIRECTORY_SEPARATOR.'cache');
@@ -61,8 +60,10 @@
 		}
 
 		write_cache(GITHUB_USER,$repos);
+
 	}
 
 	main();
+	exit();
 
 ?>
