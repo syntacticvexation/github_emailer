@@ -16,7 +16,7 @@
 		$fh = fopen(CACHE_DIR.DIRECTORY_SEPARATOR.$fname, 'w');
 		$wrapped_data = array('timestamp'=>time(),'data'=>$data);
 		fwrite($fh,serialize($wrapped_data));
-		fclose($fh);		
+		fclose($fh);
 	}
 
 	function compare_users($obj_a, $obj_b) {
@@ -57,6 +57,10 @@
 			$changes[$repo->name] = '';
 			$changes[$repo->name] .= calculate_change($old,$repo,'watchers');
 			$changes[$repo->name] .= calculate_change($old,$repo,'forks');
+
+			if ($changes[$repo->name] == '') {
+				unset($changes[$repo->name]);
+			}
 		}
 
 		return $changes;
